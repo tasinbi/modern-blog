@@ -13,6 +13,9 @@ import Contact from './pages/public/Contact';
 
 // Admin Pages
 import Login from './pages/admin/Login';
+import ForgotPassword from './pages/admin/ForgotPassword';
+import ResetPassword from './pages/admin/ResetPassword';
+import AdminRegister from './pages/admin/AdminRegister';
 import Dashboard from './pages/admin/Dashboard';
 import AdminBlogs from './pages/admin/AdminBlogs';
 import BlogForm from './pages/admin/BlogForm';
@@ -39,8 +42,10 @@ function App() {
               <Route path="contact" element={<Contact />} />
             </Route>
 
-            {/* Admin Login (outside layout) */}
+            {/* Admin Auth Routes (outside layout) */}
             <Route path="/admin/login" element={<Login />} />
+            <Route path="/admin/forgot-password" element={<ForgotPassword />} />
+            <Route path="/admin/reset-password" element={<ResetPassword />} />
 
             {/* Private Admin Routes */}
             <Route path="/admin" element={
@@ -53,6 +58,7 @@ function App() {
               <Route path="blogs/new" element={<BlogForm />} />
               <Route path="blogs/edit/:id" element={<BlogForm />} />
               <Route path="categories" element={<Categories />} />
+              <Route path="register" element={<AdminRegister />} />
             </Route>
 
             {/* 404 Route */}

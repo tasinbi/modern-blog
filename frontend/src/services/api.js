@@ -156,4 +156,14 @@ export const publicAPI = {
   getStats: () => api.get('/public/stats'),
 };
 
+export const adminAuthAPI = {
+  login: (credentials) => api.post('/admin-auth/login', credentials),
+  register: (data) => api.post('/admin-auth/register', data),
+  verify: () => api.get('/admin-auth/verify'),
+  forgotPassword: (email) => api.post('/admin-auth/forgot-password', { email }),
+  resetPassword: (token, password) => api.post('/admin-auth/reset-password', { token, password }),
+  getAdmins: () => api.get('/admin-auth/admins'),
+  updateAdminStatus: (id, is_active) => api.put(`/admin-auth/admins/${id}/status`, { is_active }),
+};
+
 export default api;

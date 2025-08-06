@@ -180,7 +180,13 @@ const Login = () => {
           </form>
 
           {/* Footer */}
-          <div className="mt-6 text-center">
+          <div className="mt-6 text-center space-y-2">
+            <Link
+              to="/admin/forgot-password"
+              className="block text-sm text-red-600 hover:text-red-700 font-medium transition-colors duration-200"
+            >
+              Forgot your password?
+            </Link>
             <Link
               to="/"
               className="text-sm text-blue-600 hover:text-blue-500 transition-colors duration-200"
