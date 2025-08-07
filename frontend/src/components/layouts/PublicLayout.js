@@ -17,7 +17,6 @@ import {
   FiBook,
 } from 'react-icons/fi';
 import { useSiteSettings } from '../../contexts/SiteSettingsContext';
-import { redirectToBlog } from '../../utils/subdomain';
 
 const PublicLayout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -127,12 +126,12 @@ const PublicLayout = () => {
               })}
               
               {/* CTA Button */}
-              <button
-                onClick={() => window.location.href = 'http://blog.localhost:3000'}
+              <Link
+                to="/contact"
                 className="ml-4 bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-3 rounded-lg font-medium hover:from-red-600 hover:to-red-700 transition-all duration-200 shadow-lg hover:shadow-xl"
               >
-                Visit Blog
-              </button>
+                Get Started
+              </Link>
             </nav>
 
             {/* Mobile menu button */}

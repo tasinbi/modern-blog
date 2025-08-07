@@ -8,14 +8,12 @@
     "fetch:posts": "node wordpress-fetcher-improved.js",
     "fetch:basic": "node wordpress-fetcher.js",
     "preview": "node preview-data.js",
-    "migrate": "node migrate-wordpress-data.js",
-    "clean-content": "node simple-content-cleaner.js clean",
-    "clean-content:demo": "node simple-content-cleaner.js demo",
     "start": "node wordpress-fetcher-improved.js"
   },
   "dependencies": {
     "axios": "^1.6.0",
     "dotenv": "^17.2.1",
+    "he": "^1.2.0",
     "mysql2": "^3.14.3"
   },
   "keywords": [
