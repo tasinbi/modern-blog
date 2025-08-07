@@ -166,4 +166,32 @@ export const adminAuthAPI = {
   updateAdminStatus: (id, is_active) => api.put(`/admin-auth/admins/${id}/status`, { is_active }),
 };
 
+export const siteSettingsAPI = {
+  // Get all site settings (public)
+  getSettings: () => api.get('/site/settings'),
+  
+  // Upload logo (admin only)
+  uploadLogo: (formData) => api.post('/site/upload-logo', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  }),
+  
+  // Upload favicon (admin only)
+  uploadFavicon: (formData) => api.post('/site/upload-favicon', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  }),
+  
+  // Update site setting (admin only)
+  updateSetting: (key, value) => api.put(`/site/setting/${key}`, { value }),
+  
+  // Reset logo to default (admin only)
+  resetLogo: () => api.delete('/site/logo'),
+  
+  // Reset favicon to default (admin only)
+  resetFavicon: () => api.delete('/site/favicon'),
+};
+
 export default api;

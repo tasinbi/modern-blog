@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { FiUser, FiLock, FiEye, FiEyeOff } from 'react-icons/fi';
+import { FiUser, FiLock, FiEye, FiEyeOff, FiAward } from 'react-icons/fi';
 import LoadingSpinner from '../../components/LoadingSpinner';
 
 const Login = () => {
@@ -84,7 +84,7 @@ const Login = () => {
         <div className="text-center">
           <Link to="/" className="inline-flex items-center space-x-2 mb-6">
             <div className="w-10 h-10 bg-red-500 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">🎓</span>
+                                  <FiAward className="text-white text-xl" />
             </div>
             <span className="text-2xl font-bold text-gray-900">Banglay IELTS</span>
           </Link>

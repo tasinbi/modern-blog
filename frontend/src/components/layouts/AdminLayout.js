@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { useSiteSettings } from '../../contexts/SiteSettingsContext';
 import { 
   FiMenu, 
   FiX, 
@@ -9,12 +10,15 @@ import {
   FiTag, 
   FiLogOut,
   FiUser,
-  FiPlus
+  FiPlus,
+  FiSettings,
+  FiAward
 } from 'react-icons/fi';
 
 const AdminLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { user, logout } = useAuth();
+  const { settings, getLogoUrl } = useSiteSettings();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -22,6 +26,7 @@ const AdminLayout = () => {
     { name: 'Dashboard', href: '/admin', icon: FiHome, exact: true },
     { name: 'Blogs', href: '/admin/blogs', icon: FiFileText },
     { name: 'Categories', href: '/admin/categories', icon: FiTag },
+    { name: 'Site Settings', href: '/admin/site-settings', icon: FiSettings },
   ];
 
   const isActivePath = (path, exact = false) => {
@@ -36,6 +41,8 @@ const AdminLayout = () => {
     navigate('/admin/login');
   };
 
+  const logoUrl = getLogoUrl();
+
   return (
     <div className="min-h-screen bg-gray-100 flex">
       {/* Sidebar */}
@@ -44,13 +51,25 @@ const AdminLayout = () => {
       } lg:w-64`}>
         <div className="p-4 border-b border-gray-200">
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">B</span>
-            </div>
+            {logoUrl ? (
+              // Show uploaded logo
+              <div className="h-8">
+                <img 
+                  src={logoUrl} 
+                  alt={settings.site_title?.value || 'Admin Panel'} 
+                  className="h-full w-auto object-contain"
+                />
+              </div>
+            ) : (
+              // Show default icon
+              <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
+                                            <FiAward className="text-white text-lg" />
+              </div>
+            )}
             <span className={`text-xl font-bold text-gray-900 transition-opacity duration-300 ${
               isSidebarOpen ? 'opacity-100' : 'opacity-0'
             } lg:opacity-100`}>
-              Admin Panel
+              {logoUrl ? (settings.site_logo?.value || 'Admin Panel') : 'Admin Panel'}
             </span>
           </div>
         </div>

@@ -12,6 +12,7 @@ const adminAuthRoutes = require('./routes/adminAuthRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 const blogRoutes = require('./routes/blogRoutes');
 const publicRoutes = require('./routes/publicRoutes');
+const siteSettingsRoutes = require('./routes/siteSettingsRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -29,11 +30,39 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
-// CORS configuration
-app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-  credentials: true
-}));
+// CORS configuration for main domain and subdomains
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'http://blog.localhost:3000',
+      'https://banglayielts.com',
+      'https://blog.banglayielts.com',
+      process.env.FRONTEND_URL
+    ].filter(Boolean);
+    
+    // Check if the origin matches any allowed origin
+    const isAllowed = allowedOrigins.some(allowedOrigin => 
+      origin === allowedOrigin || 
+      origin.startsWith('http://localhost') ||
+      origin.endsWith('.banglayielts.com')
+    );
+    
+    if (isAllowed) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+};
+
+app.use(cors(corsOptions));
 
 // Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
@@ -56,6 +85,7 @@ app.use('/api/admin-auth', adminAuthRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/blogs', blogRoutes);
 app.use('/api/public', publicRoutes);
+app.use('/api/site', siteSettingsRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

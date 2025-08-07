@@ -1,0 +1,62 @@
+[
+  {
+    "id": 28,
+    "name": "Higher Study",
+    "slug": "higher-study",
+    "description": ""
+  },
+  {
+    "id": 30,
+    "name": "Ielts",
+    "slug": "ielts",
+    "description": ""
+  },
+  {
+    "id": 26,
+    "name": "Listening",
+    "slug": "listening",
+    "description": ""
+  },
+  {
+    "id": 36,
+    "name": "Offical",
+    "slug": "offical",
+    "description": ""
+  },
+  {
+    "id": 38,
+    "name": "Official News",
+    "slug": "official-news",
+    "description": ""
+  },
+  {
+    "id": 52,
+    "name": "PTE",
+    "slug": "pte",
+    "description": ""
+  },
+  {
+    "id": 25,
+    "name": "Reading",
+    "slug": "reading",
+    "description": ""
+  },
+  {
+    "id": 27,
+    "name": "Speaking",
+    "slug": "speaking",
+    "description": ""
+  },
+  {
+    "id": 1,
+    "name": "Uncategorized",
+    "slug": "uncategorized",
+    "description": ""
+  },
+  {
+    "id": 29,
+    "name": "Writing",
+    "slug": "writing",
+    "description": ""
+  }
+]

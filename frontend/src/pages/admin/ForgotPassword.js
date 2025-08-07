@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { adminAuthAPI } from '../../services/api';
 import toast from 'react-hot-toast';
-import { FiMail, FiArrowLeft, FiSend } from 'react-icons/fi';
+import { FiMail, FiArrowLeft, FiSend, FiAward } from 'react-icons/fi';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -72,7 +72,7 @@ const ForgotPassword = () => {
             <div className="text-center">
               <Link to="/admin/login" className="inline-flex items-center space-x-2 mb-6">
                 <div className="w-10 h-10 bg-red-500 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-xl">🎓</span>
+                                      <FiAward className="text-white text-xl" />
                 </div>
                 <span className="text-2xl font-bold text-gray-900">Banglay IELTS</span>
               </Link>
@@ -148,7 +148,7 @@ const ForgotPassword = () => {
           <div className="text-center">
             <Link to="/admin/login" className="inline-flex items-center space-x-2 mb-6">
               <div className="w-10 h-10 bg-red-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">🎓</span>
+                                    <FiAward className="text-white text-xl" />
               </div>
               <span className="text-2xl font-bold text-gray-900">Banglay IELTS</span>
             </Link>

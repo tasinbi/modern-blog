@@ -1,0 +1,42 @@
+WordPress Data Export Summary
+=====================================
+Export Date: 2025-08-07T08:41:31.359Z
+Source: https://banglayielts.com/wp-json/wp/v2
+
+Statistics:
+- Total Posts: 178
+- Total Categories: 10
+- Total Authors: 0
+- Total Media Items: 93
+
+Files Generated:
+- wordpress-posts.csv (Main CSV file - Excel/Google Sheets compatible)
+- wordpress-posts.json (Posts only in JSON format)
+- wordpress-posts-complete.json (All data including categories, authors, media)
+- categories.csv (All categories in CSV format)
+
+CSV Column Descriptions:
+- id: WordPress post ID
+- title: Post title (HTML entities removed)
+- slug: URL slug
+- date: Publication date
+- author_name: Author display name
+- content_clean: Post content with HTML removed (truncated for Excel)
+- excerpt_clean: Post excerpt with HTML removed
+- categories_names: Category names (semicolon separated)
+- featured_image_url: Featured image URL
+- word_count: Approximate word count
+- has_featured_image: Yes/No indicator
+
+Notes:
+- Content has been cleaned for CSV compatibility
+- HTML tags and entities have been removed
+- Authors may show as "Unknown Author" if endpoint requires authentication
+- Semicolons (;) are used as separators instead of commas to avoid CSV conflicts
+- Content is truncated to 32,767 characters for Excel compatibility
+
+Usage Tips:
+1. Open wordpress-posts.csv in Excel or Google Sheets
+2. Use Text to Columns if needed (comma delimiter)
+3. Use wordpress-posts.json for programmatic processing
+4. Categories and media are included in the complete JSON file

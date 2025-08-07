@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { adminAuthAPI } from '../../services/api';
 import toast from 'react-hot-toast';
-import { FiUser, FiMail, FiLock, FiShield, FiEye, FiEyeOff } from 'react-icons/fi';
+import { FiUser, FiMail, FiLock, FiShield, FiEye, FiEyeOff, FiAward } from 'react-icons/fi';
 
 const AdminRegister = () => {
   const navigate = useNavigate();
@@ -122,7 +122,7 @@ const AdminRegister = () => {
           <div className="text-center">
             <Link to="/admin/dashboard" className="inline-flex items-center space-x-2 mb-6">
               <div className="w-10 h-10 bg-red-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">🎓</span>
+                                    <FiAward className="text-white text-xl" />
               </div>
               <span className="text-2xl font-bold text-gray-900">Banglay IELTS</span>
             </Link>

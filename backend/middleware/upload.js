@@ -2,35 +2,73 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-// Ensure upload directory exists
-const uploadDir = 'uploads/images';
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
+// Ensure upload directories exist
+const uploadDirs = {
+  images: 'uploads/images',
+  logos: 'uploads/logos',
+  favicons: 'uploads/favicons'
+};
 
-// Configure storage
+Object.values(uploadDirs).forEach(dir => {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+});
+
+// Configure storage with dynamic destination
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, uploadDir);
+    let uploadPath = uploadDirs.images; // default
+    
+    // Determine upload path based on field name
+    if (file.fieldname === 'logo') {
+      uploadPath = uploadDirs.logos;
+    } else if (file.fieldname === 'favicon') {
+      uploadPath = uploadDirs.favicons;
+    }
+    
+    cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
     // Generate unique filename
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
     const extension = path.extname(file.originalname);
-    cb(null, file.fieldname + '-' + uniqueSuffix + extension);
+    
+    // Special naming for logo and favicon
+    if (file.fieldname === 'logo') {
+      cb(null, 'site-logo-' + uniqueSuffix + extension);
+    } else if (file.fieldname === 'favicon') {
+      cb(null, 'site-favicon-' + uniqueSuffix + extension);
+    } else {
+      cb(null, file.fieldname + '-' + uniqueSuffix + extension);
+    }
   }
 });
 
-// File filter for images only
+// File filter for images and favicon
 const fileFilter = (req, file, cb) => {
-  const allowedTypes = /jpeg|jpg|png|gif|webp/;
-  const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-  const mimetype = allowedTypes.test(file.mimetype);
-
-  if (mimetype && extname) {
-    return cb(null, true);
+  // Allow ICO files for favicon
+  if (file.fieldname === 'favicon') {
+    const allowedTypes = /jpeg|jpg|png|gif|webp|ico/;
+    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = allowedTypes.test(file.mimetype) || file.mimetype === 'image/x-icon';
+    
+    if (mimetype && extname) {
+      return cb(null, true);
+    } else {
+      cb(new Error('Only image files are allowed for favicon (jpeg, jpg, png, gif, webp, ico)'), false);
+    }
   } else {
-    cb(new Error('Only image files are allowed (jpeg, jpg, png, gif, webp)'), false);
+    // Regular image files for logo and blog images
+    const allowedTypes = /jpeg|jpg|png|gif|webp/;
+    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = allowedTypes.test(file.mimetype);
+
+    if (mimetype && extname) {
+      return cb(null, true);
+    } else {
+      cb(new Error('Only image files are allowed (jpeg, jpg, png, gif, webp)'), false);
+    }
   }
 };
 

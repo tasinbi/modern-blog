@@ -8,7 +8,6 @@ import {
   FiUser, 
   FiMail,
   FiFacebook,
-  FiTwitter,
   FiInstagram,
   FiLinkedin,
   FiYoutube,
@@ -16,13 +15,14 @@ import {
   FiMapPin,
   FiAward,
   FiBook,
-  FiGlobe,
-  FiDownload
 } from 'react-icons/fi';
+import { useSiteSettings } from '../../contexts/SiteSettingsContext';
+import { redirectToBlog } from '../../utils/subdomain';
 
 const PublicLayout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { settings, getLogoUrl } = useSiteSettings();
 
   const navigation = [
     { name: 'Home', href: '/', icon: FiHome },
@@ -38,6 +38,8 @@ const PublicLayout = () => {
     return location.pathname.startsWith(path);
   };
 
+  const logoUrl = getLogoUrl();
+
   return (
     <div className="min-h-screen bg-white">
       {/* Top Bar */}
@@ -47,7 +49,7 @@ const PublicLayout = () => {
             <div className="flex items-center space-x-6">
               <div className="flex items-center space-x-2">
                 <FiPhone size={14} />
-                <span>+880 1700-000000</span>
+                <span>01303-537667</span>
               </div>
               <div className="flex items-center space-x-2">
                 <FiMail size={14} />
@@ -56,13 +58,13 @@ const PublicLayout = () => {
             </div>
             <div className="flex items-center space-x-4">
               <span className="text-red-100">Follow us:</span>
-              <a href="#" className="hover:text-red-200 transition-colors">
+              <a href="https://www.facebook.com/BanglayIELTS" className="hover:text-red-200 transition-colors">
                 <FiFacebook size={16} />
               </a>
-              <a href="#" className="hover:text-red-200 transition-colors">
+              <a href="https://www.youtube.com/@banglayielts" className="hover:text-red-200 transition-colors">
                 <FiYoutube size={16} />
               </a>
-              <a href="#" className="hover:text-red-200 transition-colors">
+              <a href="https://www.instagram.com/banglayielts/?hl=en" className="hover:text-red-200 transition-colors">
                 <FiInstagram size={16} />
               </a>
             </div>
@@ -75,16 +77,30 @@ const PublicLayout = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             {/* Logo */}
-            <Link to="/" className="flex items-center space-x-3 group">
-              <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
-                <span className="text-white font-bold text-xl">🎓</span>
-              </div>
-              <div>
-                <span className="text-2xl font-bold bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
-                  Banglay IELTS
-                </span>
-                <p className="text-xs text-gray-500 -mt-1">Your Gateway to Success</p>
-              </div>
+            <Link to="/" className="flex items-center group">
+              {logoUrl ? (
+                // Show only logo image when uploaded
+                <div className="h-16">
+                  <img 
+                    src={logoUrl} 
+                    alt={settings.site_title?.value || 'Banglay IELTS'} 
+                    className="h-full w-auto object-contain"
+                  />
+                </div>
+              ) : (
+                // Show text logo when no image uploaded
+                <div className="flex items-center space-x-3">
+                  <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+                    <FiAward className="text-white text-xl" />
+                  </div>
+                  <div>
+                    <span className="text-2xl font-bold bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">
+                      {settings.site_logo?.value || 'Banglay IELTS'}
+                    </span>
+                    <p className="text-xs text-gray-500 -mt-1">Your Gateway to Success</p>
+                  </div>
+                </div>
+              )}
             </Link>
 
             {/* Desktop Navigation */}
@@ -111,12 +127,12 @@ const PublicLayout = () => {
               })}
               
               {/* CTA Button */}
-              <Link
-                to="/contact"
-                className="ml-6 bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-3 rounded-lg font-medium hover:from-red-600 hover:to-red-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+              <button
+                onClick={() => window.location.href = 'http://blog.localhost:3000'}
+                className="ml-4 bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-3 rounded-lg font-medium hover:from-red-600 hover:to-red-700 transition-all duration-200 shadow-lg hover:shadow-xl"
               >
-                Get Started
-              </Link>
+                Visit Blog
+              </button>
             </nav>
 
             {/* Mobile menu button */}
@@ -189,15 +205,29 @@ const PublicLayout = () => {
               {/* Brand Section */}
               <div className="lg:col-span-2">
                 <div className="flex items-center space-x-3 mb-6">
-                  <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center shadow-lg">
-                    <span className="text-white font-bold text-xl">🎓</span>
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-bold bg-gradient-to-r from-red-400 to-red-300 bg-clip-text text-transparent">
-                      Banglay IELTS
-                    </h3>
-                    <p className="text-gray-400 text-sm">Your Gateway to Success</p>
-                  </div>
+                  {logoUrl ? (
+                    // Show logo image in footer when uploaded
+                    <div className="h-12">
+                      <img 
+                        src={logoUrl} 
+                        alt={settings.site_title?.value || 'Banglay IELTS'} 
+                        className="h-full w-auto object-contain"
+                      />
+                    </div>
+                  ) : (
+                    // Show text logo in footer when no image uploaded
+                    <>
+                      <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <FiAward className="text-white text-xl" />
+                      </div>
+                      <div>
+                        <h3 className="text-2xl font-bold bg-gradient-to-r from-red-400 to-red-300 bg-clip-text text-transparent">
+                          {settings.site_logo?.value || 'Banglay IELTS'}
+                        </h3>
+                        <p className="text-gray-400 text-sm">Your Gateway to Success</p>
+                      </div>
+                    </>
+                  )}
                 </div>
                 
                 <p className="text-gray-300 text-base leading-relaxed mb-6 max-w-md">
@@ -211,7 +241,8 @@ const PublicLayout = () => {
                     </div>
                     <div>
                       <p className="text-white font-medium">Office</p>
-                      <p className="text-gray-400 text-sm">Dhanmondi, Dhaka</p>
+                      <p className="text-gray-400 text-sm">
+                      Rahman Heights, Plot-01, 3rd floor, Road-13, Sector-4, Rajlokkhi, Uttara, Dhaka- 1230</p>
                     </div>
                   </div>
                   
@@ -221,7 +252,7 @@ const PublicLayout = () => {
                     </div>
                     <div>
                       <p className="text-white font-medium">Call Us</p>
-                      <p className="text-gray-400 text-sm">+880 1700-000000</p>
+                      <p className="text-gray-400 text-sm"> 01303-537667</p>
                     </div>
                   </div>
                 </div>
@@ -231,28 +262,28 @@ const PublicLayout = () => {
                   <p className="text-white font-medium mb-3">Follow Us</p>
                   <div className="flex space-x-3">
                     <a
-                      href="#"
+                      href="https://www.facebook.com/BanglayIELTS"
                       className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center hover:bg-blue-700 transition-all duration-300 hover:scale-110"
                       aria-label="Facebook"
                     >
                       <FiFacebook size={18} className="text-white" />
                     </a>
                     <a
-                      href="#"
+                      href="https://www.youtube.com/@banglayielts"
                       className="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center hover:bg-red-700 transition-all duration-300 hover:scale-110"
                       aria-label="YouTube"
                     >
                       <FiYoutube size={18} className="text-white" />
                     </a>
                     <a
-                      href="#"
+                      href="https://www.instagram.com/banglayielts/?hl=en"
                       className="w-10 h-10 bg-pink-600 rounded-lg flex items-center justify-center hover:bg-pink-700 transition-all duration-300 hover:scale-110"
                       aria-label="Instagram"
                     >
                       <FiInstagram size={18} className="text-white" />
                     </a>
                     <a
-                      href="#"
+                      href="https://www.linkedin.com/company/banglay-ielts/"
                       className="w-10 h-10 bg-blue-800 rounded-lg flex items-center justify-center hover:bg-blue-900 transition-all duration-300 hover:scale-110"
                       aria-label="LinkedIn"
                     >
@@ -399,16 +430,6 @@ const PublicLayout = () => {
               <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
                 <div className="text-gray-400 text-sm">
                   © {new Date().getFullYear()} Banglay IELTS. All rights reserved. Your trusted partner for IELTS success.
-                </div>
-                <div className="flex items-center space-x-6 text-gray-400 text-sm">
-                  <div className="flex items-center space-x-2">
-                    <FiGlobe size={14} />
-                    <span>Bangladesh</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                    <span>Online</span>
-                  </div>
                 </div>
               </div>
             </div>
